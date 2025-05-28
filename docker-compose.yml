@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  zantaku-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zantaku-app
+    restart: always
+    ports:
+      - "0.0.0.0:8090:8080"
+    volumes:
+      - ./dist:/app/dist
+    environment:
+      - NODE_ENV=production 

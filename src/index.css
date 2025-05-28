@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Neo-Tokyo/Vaporwave Color Palette */
+  --deep-black: #0A0A0A;
+  --crimson-red: #7C1C1C;
+  --burnt-maroon: #531111;
+  --mossy-green: #425A40;
+  --slate-teal: #3E6257;
+  --soft-sky-blue: #2C7A8C;
+  
+  /* Original Zantaku Colors */
+  --zantaku-red: #F44336;
+  --zantaku-pink: #E91E63;
+  --zantaku-cream: #F5F5F5;
+
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  background-color: var(--deep-black);
+  
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--crimson-red) var(--deep-black);
+}
+
+/* Custom scrollbar */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--deep-black);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--crimson-red);
+  border-radius: 20px;
+  border: 2px solid var(--deep-black);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+.glow-effect {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.glow-effect::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(124, 28, 28, 0.2) 0%,
+    rgba(83, 17, 17, 0.1) 30%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.glow-effect:hover::after {
+  opacity: 1;
+}
+
+/* Blog Card Styles */
+.text-glow {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Reaction Button Styles */
+.reaction-btn {
+  @apply px-3 py-1 rounded-full text-sm bg-white/5 hover:bg-white/10 
+         border border-white/10 hover:border-white/20 
+         transition-all duration-300 ease-out;
+}
+
+.reaction-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.reaction-btn:active {
+  transform: translateY(0);
+}
+
+/* Category Card Decorations */
+.anime-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 0l15 15H0z' fill='%23fff' fill-opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.1;
+}
+
+.manga-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='none' stroke='%23fff' stroke-width='1' stroke-opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.1;
+}
+
+.news-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='15' cy='15' r='15' fill='%23fff' fill-opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.1;
+}
+
+.guide-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l20 20M20 0L0 20' stroke='%23fff' stroke-width='1' stroke-opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.1;
+}
+
+.vtuber-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 0l7.5 13-7.5 13-7.5-13z' fill='%23fff' fill-opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.1;
+}
+
+.interview-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10h20M10 0v20' stroke='%23fff' stroke-width='1' stroke-opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.1;
+}
+
+.analysis-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='25' height='25' viewBox='0 0 25 25' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h25L0 25z' fill='%23fff' fill-opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.1;
+}
+
+/* Hover Effects */
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 10%,
+    rgba(255, 255, 255, 0.2) 20%,
+    transparent 30%
+  );
+  mask-image: linear-gradient(black, black);
+  mask-position: 150% 0;
+  mask-size: 300% 100%;
+  pointer-events: none;
+}

@@ -1,0 +1,16 @@
+node_modules
+npm-debug.log
+.git
+.github
+.gitignore
+.env
+.eslintrc
+.bolt
+src
+public
+*.md
+.DS_Store
+.vscode
+
+# Don't ignore dist directory as we need it for serving
+!dist/ 
