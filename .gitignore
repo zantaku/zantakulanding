@@ -61,3 +61,14 @@ stats.html
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI and development tools
+.bolt/
+.cursor/
+.cursor
+.devcontainer/
+.vscode-server/
+.fleet/
+*.ai.json
+.copilot/
+.github/.copilot/
