@@ -26,29 +26,60 @@ const GoogleAnalytics: React.FC<GoogleAnalyticsProps> = ({ measurementId }) => {
       return;
     }
 
-    // Add Google Analytics script
-    const script1 = document.createElement('script');
-    script1.async = true;
-    script1.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-    
-    const script2 = document.createElement('script');
-    script2.innerHTML = `
+    let script1: HTMLScriptElement | null = null;
+    let script2: HTMLScriptElement | null = null;
+
+    try {
+      // Initialize dataLayer safely
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${measurementId}', {
-        send_page_view: true,
-        cookie_domain: 'zantaku.com'
-      });
-    `;
-    
-    document.head.appendChild(script1);
-    document.head.appendChild(script2);
+      
+      // Add Google Analytics script with error handling
+      script1 = document.createElement('script');
+      script1.async = true;
+      script1.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+      script1.onerror = (error) => {
+        console.warn('Google Analytics script failed to load (likely blocked by adblocker):', error);
+      };
+      
+      script2 = document.createElement('script');
+      script2.innerHTML = `
+        try {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){
+            try {
+              dataLayer.push(arguments);
+            } catch(e) {
+              console.warn('gtag dataLayer push failed:', e);
+            }
+          }
+          gtag('js', new Date());
+          gtag('config', '${measurementId}', {
+            send_page_view: true,
+            cookie_domain: 'zantaku.com'
+          });
+        } catch(e) {
+          console.warn('Google Analytics initialization failed:', e);
+        }
+      `;
+      
+      document.head.appendChild(script1);
+      document.head.appendChild(script2);
+    } catch (error) {
+      console.warn('Failed to initialize Google Analytics:', error);
+    }
 
     return () => {
       // Clean up on unmount
-      document.head.removeChild(script1);
-      document.head.removeChild(script2);
+      try {
+        if (script1 && script1.parentNode) {
+          script1.parentNode.removeChild(script1);
+        }
+        if (script2 && script2.parentNode) {
+          script2.parentNode.removeChild(script2);
+        }
+      } catch (error) {
+        console.warn('Failed to cleanup Google Analytics scripts:', error);
+      }
     };
   }, [measurementId]);
 

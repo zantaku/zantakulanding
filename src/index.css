@@ -1,204 +1,558 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Neo-Tokyo/Vaporwave Color Palette */
-  --deep-black: #0A0A0A;
-  --crimson-red: #7C1C1C;
-  --burnt-maroon: #531111;
-  --mossy-green: #425A40;
-  --slate-teal: #3E6257;
-  --soft-sky-blue: #2C7A8C;
-  
-  /* Original Zantaku Colors */
-  --zantaku-red: #F44336;
-  --zantaku-pink: #E91E63;
-  --zantaku-cream: #F5F5F5;
-
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', 'Zen Kaku Gothic New', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: dark;
-  background-color: var(--deep-black);
-  
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #0A0A0A;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
+/* Japanese-inspired scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 10, 10, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #7C1C1C, #FF6B6B);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #FF6B6B, #7C1C1C);
+}
+
+/* Smooth scrolling and snap behavior */
 html {
   scroll-behavior: smooth;
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
 }
 
 body {
   margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0A0A0A;
   overflow-x: hidden;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--crimson-red) var(--deep-black);
 }
 
-/* Custom scrollbar */
-body::-webkit-scrollbar {
+/* Snap scrolling container */
+.snap-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+/* Individual snap sections */
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+}
+
+/* Custom video glow effect */
+.video-glow {
+  position: relative;
+}
+
+.video-glow::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  background: linear-gradient(45deg, #7C1C1C, #FF6B6B, #7C1C1C);
+  border-radius: inherit;
+  opacity: 0.3;
+  filter: blur(20px);
+  z-index: -1;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* Cyber border animation */
+.cyber-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-border::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.4), transparent);
+  animation: cyber-sweep 3s linear infinite;
+}
+
+@keyframes cyber-sweep {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Japanese typography support */
+.japanese-text {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-feature-settings: "kern" 1;
+  text-rendering: optimizeLegibility;
+}
+
+/* Enhanced focus states for accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #FF6B6B;
+  outline-offset: 2px;
+}
+
+/* Loading animations */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: shimmer 2s infinite;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .text-white\/70 {
+    color: white;
+  }
+  
+  .text-white\/80 {
+    color: white;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Custom selection colors */
+::selection {
+  background-color: rgba(124, 28, 28, 0.3);
+  color: white;
+}
+
+::-moz-selection {
+  background-color: rgba(124, 28, 28, 0.3);
+  color: white;
+}
+
+/* Sakura petal floating animation */
+@keyframes sakura-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.sakura-petal {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #FF6B6B 0%, #7C1C1C 100%);
+  border-radius: 50% 0 50% 0;
+  animation: sakura-fall linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sakura-petal:nth-child(1) { left: 10%; animation-duration: 15s; animation-delay: 0s; }
+.sakura-petal:nth-child(2) { left: 20%; animation-duration: 18s; animation-delay: 2s; }
+.sakura-petal:nth-child(3) { left: 30%; animation-duration: 20s; animation-delay: 4s; }
+.sakura-petal:nth-child(4) { left: 40%; animation-duration: 16s; animation-delay: 6s; }
+.sakura-petal:nth-child(5) { left: 50%; animation-duration: 22s; animation-delay: 8s; }
+.sakura-petal:nth-child(6) { left: 60%; animation-duration: 17s; animation-delay: 10s; }
+.sakura-petal:nth-child(7) { left: 70%; animation-duration: 19s; animation-delay: 12s; }
+.sakura-petal:nth-child(8) { left: 80%; animation-duration: 21s; animation-delay: 14s; }
+.sakura-petal:nth-child(9) { left: 90%; animation-duration: 14s; animation-delay: 16s; }
+
+/* Japanese text styling */
+.japanese-text {
+  font-family: 'Zen Kaku Gothic New', 'Inter', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+/* Subtle traditional pattern overlay */
+.traditional-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(124, 28, 28, 0.03) 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, rgba(255, 107, 107, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Enhanced glow effects for Japanese aesthetic */
+.neo-glow {
+  text-shadow: 
+    0 0 5px rgba(124, 28, 28, 0.5),
+    0 0 10px rgba(124, 28, 28, 0.3),
+    0 0 15px rgba(124, 28, 28, 0.2);
+}
+
+.soft-glow {
+  box-shadow: 
+    0 0 20px rgba(124, 28, 28, 0.1),
+    0 0 40px rgba(124, 28, 28, 0.05),
+    inset 0 0 20px rgba(255, 255, 255, 0.02);
+}
+
+/* Zen-inspired hover states */
+.zen-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.zen-hover:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* Subtle animation for Japanese elements */
+@keyframes gentle-pulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+.gentle-pulse {
+  animation: gentle-pulse 3s ease-in-out infinite;
+}
+
+/* Enhanced video integration styles */
+@keyframes screen-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 30px rgba(255, 107, 107, 0.2),
+      0 0 60px rgba(124, 28, 28, 0.1),
+      inset 0 0 30px rgba(255, 107, 107, 0.05);
+  }
+  50% {
+    box-shadow: 
+      0 0 40px rgba(255, 107, 107, 0.3),
+      0 0 80px rgba(124, 28, 28, 0.15),
+      inset 0 0 40px rgba(255, 107, 107, 0.08);
+  }
+}
+
+.video-glow {
+  animation: screen-glow 4s ease-in-out infinite;
+}
+
+/* Cyberpunk-style video border effect */
+@keyframes data-stream {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+.cyber-border {
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 107, 107, 0.1) 50%,
+    transparent 70%
+  );
+  background-size: 20px 20px;
+  animation: data-stream 3s linear infinite;
+}
+
+/* Video overlay blend modes for better integration */
+.video-overlay-darken {
+  mix-blend-mode: multiply;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 10, 0.4) 0%,
+    rgba(26, 10, 26, 0.3) 50%,
+    rgba(10, 10, 10, 0.4) 100%
+  );
+}
+
+.video-overlay-screen {
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 107, 107, 0.03) 0%,
+    transparent 70%
+  );
+}
+
+/* Enhanced phone screen glow simulation */
+@keyframes phone-pulse {
+  0%, 100% {
+    transform: scale(1) translateX(-50%) translateY(-50%);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.05) translateX(-50%) translateY(-50%);
+    opacity: 0.8;
+  }
+}
+
+.phone-glow {
+  animation: phone-pulse 6s ease-in-out infinite;
+}
+
+/* Modern Japanese typography */
+h1, h2, h3 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.title-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #FF6B6B 50%, #7C1C1C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive Japanese text scaling */
+@media (max-width: 768px) {
+  .japanese-text {
+    font-size: 0.9em;
+    letter-spacing: 0.03em;
+  }
+}
+
+#root {
+  max-width: 100vw;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Enhanced Hero Section Styles */
+@keyframes cyber-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(124, 28, 28, 0.3), 0 0 40px rgba(124, 28, 28, 0.1);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(255, 107, 107, 0.4), 0 0 60px rgba(255, 107, 107, 0.2);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes star-twinkle {
+  0%, 100% { 
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+.video-glow {
+  animation: cyber-glow 3s ease-in-out infinite;
+}
+
+.cyber-border {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.star-twinkle {
+  animation: star-twinkle 1.5s ease-in-out infinite;
+}
+
+/* Smooth scrolling for snap sections */
+.snap-y {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for the main layout */
+.snap-y::-webkit-scrollbar {
   width: 8px;
 }
 
-body::-webkit-scrollbar-track {
-  background: var(--deep-black);
+.snap-y::-webkit-scrollbar-track {
+  background: rgba(10, 10, 10, 0.5);
 }
 
-body::-webkit-scrollbar-thumb {
-  background-color: var(--crimson-red);
-  border-radius: 20px;
-  border: 2px solid var(--deep-black);
+.snap-y::-webkit-scrollbar-thumb {
+  background: rgba(124, 28, 28, 0.6);
+  border-radius: 4px;
 }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+.snap-y::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 107, 0.8);
+}
+
+/* Backdrop blur fix for better browser support */
+@supports not (backdrop-filter: blur(10px)) {
+  .backdrop-blur-sm {
+    background-color: rgba(0, 0, 0, 0.6);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+}
+
+/* GitHub stats loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
   }
 }
 
-.animate-fade-in {
-  animation: fade-in 1s ease-out forwards;
-  will-change: transform, opacity;
+.animate-shimmer {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
 }
 
-.glow-effect {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-}
 
-.glow-effect::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    circle,
-    rgba(124, 28, 28, 0.2) 0%,
-    rgba(83, 17, 17, 0.1) 30%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: -1;
-}
-
-.glow-effect:hover::after {
-  opacity: 1;
-}
-
-/* Blog Card Styles */
-.text-glow {
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
-
-/* Reaction Button Styles */
-.reaction-btn {
-  @apply px-3 py-1 rounded-full text-sm bg-white/5 hover:bg-white/10 
-         border border-white/10 hover:border-white/20 
-         transition-all duration-300 ease-out;
-}
-
-.reaction-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.reaction-btn:active {
-  transform: translateY(0);
-}
-
-/* Category Card Decorations */
-.anime-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 0l15 15H0z' fill='%23fff' fill-opacity='0.05'/%3E%3C/svg%3E");
-  opacity: 0.1;
-}
-
-.manga-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='none' stroke='%23fff' stroke-width='1' stroke-opacity='0.05'/%3E%3C/svg%3E");
-  opacity: 0.1;
-}
-
-.news-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='15' cy='15' r='15' fill='%23fff' fill-opacity='0.05'/%3E%3C/svg%3E");
-  opacity: 0.1;
-}
-
-.guide-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l20 20M20 0L0 20' stroke='%23fff' stroke-width='1' stroke-opacity='0.05'/%3E%3C/svg%3E");
-  opacity: 0.1;
-}
-
-.vtuber-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 0l7.5 13-7.5 13-7.5-13z' fill='%23fff' fill-opacity='0.05'/%3E%3C/svg%3E");
-  opacity: 0.1;
-}
-
-.interview-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10h20M10 0v20' stroke='%23fff' stroke-width='1' stroke-opacity='0.05'/%3E%3C/svg%3E");
-  opacity: 0.1;
-}
-
-.analysis-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='25' height='25' viewBox='0 0 25 25' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h25L0 25z' fill='%23fff' fill-opacity='0.05'/%3E%3C/svg%3E");
-  opacity: 0.1;
-}
-
-/* Hover Effects */
-.card-shine {
-  position: relative;
-  overflow: hidden;
-}
-
-.card-shine::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    110deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 10%,
-    rgba(255, 255, 255, 0.2) 20%,
-    transparent 30%
-  );
-  mask-image: linear-gradient(black, black);
-  mask-position: 150% 0;
-  mask-size: 300% 100%;
-  pointer-events: none;
-}

@@ -101,4 +101,61 @@ export const handleAniListCallback = async (code: string) => {
     );
     window.close();
   }
+};
+
+export const getTrendingMedia = async (type: 'ANIME' | 'MANGA', page: number = 1, perPage: number = 10) => {
+  const query = `
+    query ($page: Int, $perPage: Int, $type: MediaType) {
+      Page(page: $page, perPage: $perPage) {
+        media(sort: TRENDING_DESC, type: $type) {
+          id
+          title {
+            romaji
+            english
+            native
+          }
+          coverImage {
+            large
+            medium
+          }
+          averageScore
+          genres
+          status
+          format
+          episodes
+          chapters
+          startDate {
+            year
+          }
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    page,
+    perPage,
+    type,
+  };
+
+  try {
+    const response = await fetch('https://graphql.anilist.co', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ query, variables }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch trending media');
+    }
+
+    const data = await response.json();
+    return data.data.Page.media;
+  } catch (error) {
+    console.error('Error fetching trending media:', error);
+    return [];
+  }
 }; 

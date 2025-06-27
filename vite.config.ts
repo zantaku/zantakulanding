@@ -7,7 +7,14 @@ import { visualizer } from 'rollup-plugin-visualizer';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      // Enable React Fast Refresh optimizations
+      babel: {
+        plugins: process.env.NODE_ENV === 'production' 
+          ? ['babel-plugin-transform-remove-console']
+          : []
+      }
+    }),
     splitVendorChunkPlugin(),
     VitePWA({
       registerType: 'autoUpdate',
@@ -44,10 +51,22 @@ export default defineConfig({
     })
   ],
   optimizeDeps: {
+    // Pre-bundle these dependencies for faster dev server startup
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'framer-motion',
+      '@supabase/supabase-js'
+    ],
     exclude: ['lucide-react'],
   },
   server: {
     port: 8081,
+    // Enable HMR optimizations
+    hmr: {
+      overlay: true
+    },
     cors: {
       origin: '*',
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -64,19 +83,38 @@ export default defineConfig({
     assetsDir: 'asset',
     copyPublicDir: true,
     minify: 'terser',
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000,
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
-        passes: 2
+        passes: 3, // Increased passes for better compression
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn']
+      },
+      mangle: {
+        safari10: true
       }
     },
     rollupOptions: {
       output: {
+        // More aggressive chunk splitting for better caching
         manualChunks: {
-          'vendor': ['react', 'react-dom', 'react-router-dom'],
+          // Core React libraries
+          'react-vendor': ['react', 'react-dom'],
+          'router': ['react-router-dom'],
+          
+          // Animation libraries
           'animations': ['framer-motion', 'react-type-animation', 'react-intersection-observer'],
-          'ui': ['lucide-react', 'react-icons', 'clsx']
+          
+          // UI libraries
+          'ui-icons': ['lucide-react', 'react-icons'],
+          
+          // Supabase and auth
+          'supabase': ['@supabase/supabase-js'],
+          
+          // Utilities
+          'utils': ['clsx']
         },
         assetFileNames: (assetInfo) => {
           if (assetInfo.name) {
@@ -86,6 +124,9 @@ export default defineConfig({
             if (/\.(woff|woff2|eot|ttf|otf)$/.test(assetInfo.name)) {
               return `asset/fonts/[name]-[hash][extname]`;
             }
+            if (/\.css$/.test(assetInfo.name)) {
+              return `asset/css/[name]-[hash][extname]`;
+            }
           }
           return `asset/[name]-[hash][extname]`;
         },
@@ -94,12 +135,23 @@ export default defineConfig({
       }
     },
     sourcemap: false,
-    target: 'es2015',
+    target: 'es2020', // Updated target for better performance
     cssMinify: true,
+    // Enable CSS code splitting
+    cssCodeSplit: true,
   },
   publicDir: 'public',
   define: {
     APP_NAME: JSON.stringify('Zantaku'),
-    APP_DESCRIPTION: JSON.stringify('Your Ultimate Anime Community')
+    APP_DESCRIPTION: JSON.stringify('Your Ultimate Anime Community'),
+    // Define global constants for better tree shaking
+    __DEV__: JSON.stringify(process.env.NODE_ENV === 'development')
+  },
+  // Enable esbuild optimizations
+  esbuild: {
+    // Remove console statements in production
+    drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : undefined,
+    // Target modern browsers for better performance
+    target: 'es2020'
   }
 });

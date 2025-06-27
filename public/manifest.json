@@ -13,13 +13,23 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/favicon-32x32.png",
+      "src": "/asset/zantakulogotest_16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/asset/zantakulogotest_32x32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/apple-touch-icon.png",
+      "src": "/asset/zantakulogotest_64x64.png",
       "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/asset/zantakulogoV2.png",
+      "sizes": "192x192",
       "type": "image/png"
     }
   ]

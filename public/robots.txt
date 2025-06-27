@@ -1,4 +1,30 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://zantaku.com/sitemap.xml 
+# Zantaku - Anime & Manga Tracking Application
+# This is a legitimate anime and manga tracking platform
+# that helps users organize their AniList collections
+
+# Main pages
+Allow: /
+Allow: /countdown
+Allow: /login
+Allow: /auth/callback
+Allow: /auth
+
+# Static assets
+Allow: /asset/
+Allow: /favicon.ico
+Allow: /manifest.json
+
+# Disallow admin areas
+Disallow: /adminp/
+
+# Sitemap
+Sitemap: https://zantaku.com/sitemap.xml
+
+# About this site:
+# Zantaku is a community-driven anime and manga tracking application
+# Built for anime fans to discover, track, and connect with other otaku
+# Integrates with AniList for seamless anime/manga list management
+# No piracy or illegal content - legitimate tracking platform only 

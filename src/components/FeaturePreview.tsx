@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Compass, BookOpen, Gamepad2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface FeatureItemProps {
   icon: React.ElementType;
@@ -13,18 +14,37 @@ interface FeatureItemProps {
 const FeatureItem = memo(({ icon: Icon, title, description, delay }: FeatureItemProps) => {
   return (
     <motion.div 
-      className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/5 flex flex-col items-center text-center"
-      initial={{ opacity: 0, y: 20 }}
+      className="relative group"
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      whileHover={{ y: -5, transition: { duration: 0.2 } }}
+      transition={{ duration: 0.8, delay }}
+      whileHover={{ y: -10, scale: 1.02 }}
     >
-      <div className="p-3 bg-zantaku-red/20 rounded-full mb-4">
-        <Icon className="w-6 h-6 text-white" />
+      {/* Glowing border effect */}
+      <div className="absolute -inset-0.5 bg-gradient-to-r from-[#7C1C1C] via-[#FF6B6B] to-[#7C1C1C] rounded-2xl opacity-30 group-hover:opacity-60 transition-all duration-500 blur-sm"></div>
+      
+      {/* Main card */}
+      <div className="relative bg-black/60 backdrop-blur-sm rounded-2xl p-8 border border-white/10 h-full flex flex-col items-center text-center">
+        {/* Icon container with enhanced glow */}
+        <div className="relative mb-6">
+          <div className="absolute inset-0 bg-[#7C1C1C]/30 rounded-full blur-xl group-hover:blur-2xl transition-all duration-500"></div>
+          <div className="relative p-4 bg-gradient-to-br from-[#7C1C1C] to-[#531111] rounded-full">
+            <Icon className="w-8 h-8 text-white" />
+          </div>
+        </div>
+        
+        {/* Content */}
+        <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-[#FF6B6B] transition-colors duration-300">
+          {title}
+        </h3>
+        <p className="text-white/70 text-base leading-relaxed group-hover:text-white/90 transition-colors duration-300">
+          {description}
+        </p>
+        
+        {/* Subtle bottom accent */}
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-gradient-to-r from-transparent via-[#7C1C1C] to-transparent rounded-full opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
       </div>
-      <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
-      <p className="text-white/70 text-sm md:text-base">{description}</p>
     </motion.div>
   );
 });
@@ -33,81 +53,99 @@ const FeatureItem = memo(({ icon: Icon, title, description, delay }: FeatureItem
 FeatureItem.displayName = 'FeatureItem';
 
 // Reduced number of animation particles
-const PARTICLE_COUNT = 3; // Reduced from 6
+const PARTICLE_COUNT = 4; // Reduced for better performance
 
 export function FeaturePreview() {
+  const { t } = useTranslation();
+  
   // Generate particles only once on component mount
   const particles = React.useMemo(() => 
     [...Array(PARTICLE_COUNT)].map((_, i) => ({
       id: i,
-      width: Math.random() * 30 + 10,
-      height: Math.random() * 30 + 10,
+      width: Math.random() * 40 + 20,
+      height: Math.random() * 40 + 20,
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
-      duration: Math.random() * 10 + 10,
+      duration: Math.random() * 15 + 15,
       delay: Math.random() * 5
     })), []);
 
   return (
-    <section className="relative pt-20 md:pt-32 pb-24 px-4 md:px-8 bg-[#121212]">
-      {/* Subtle top glow effect */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-zantaku-red/5 blur-[60px] rounded-full"></div>
+    <section className="relative py-24 px-4 md:px-8 bg-gradient-to-b from-[#0A0A0A] via-[#1A0A1A] to-[#0A0A0A]">
+      {/* Enhanced background effects */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#7C1C1C]/5 via-transparent to-[#7C1C1C]/5 animate-pulse"></div>
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-1/4 left-1/4 w-40 h-40 bg-[#7C1C1C]/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-[#531111]/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-2/3 right-1/6 w-24 h-24 bg-[#2C7A8C]/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+        </div>
+      </div>
       
-      {/* Subtle animated particles - reduced count */}
+      {/* Enhanced animated particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {particles.map((particle) => (
           <motion.div
             key={particle.id}
-            className="absolute rounded-full bg-white/5"
+            className="absolute rounded-full bg-gradient-to-r from-[#7C1C1C]/20 to-[#FF6B6B]/20 blur-sm"
             style={{
               width: particle.width,
               height: particle.height,
               left: particle.left,
               top: particle.top,
-              willChange: 'transform, opacity' // Add will-change for better performance
+              willChange: 'transform, opacity'
             }}
             animate={{
-              y: [0, -30, 0],
-              x: [0, Math.random() * 20 - 10, 0],
-              opacity: [0.1, 0.3, 0.1],
+              y: [0, -50, 0],
+              x: [0, Math.random() * 30 - 15, 0],
+              opacity: [0.1, 0.4, 0.1],
+              scale: [1, 1.2, 1],
             }}
             transition={{
               duration: particle.duration,
               repeat: Infinity,
-              delay: particle.delay
+              delay: particle.delay,
+              ease: "easeInOut"
             }}
           />
         ))}
       </div>
       
-      <div className="relative max-w-6xl mx-auto">
-        <motion.h2 
-          className="text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center mb-10 md:mb-16"
-          initial={{ opacity: 0, y: 20 }}
+      <div className="relative max-w-7xl mx-auto">
+        {/* Enhanced title section */}
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.8 }}
         >
-          Everything You Need in One Place
-        </motion.h2>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+            {t('features.everythingYouNeed')} <span className="bg-gradient-to-r from-[#7C1C1C] via-[#FF6B6B] to-[#7C1C1C] text-transparent bg-clip-text">{t('features.onePlace')}</span>
+          </h2>
+          <p className="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto leading-relaxed">
+            {t('features.experienceTheFuture')}
+          </p>
+        </motion.div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+        {/* Enhanced feature grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           <FeatureItem 
             icon={Compass}
-            title="Discover"
-            description="Explore your favorite anime and manga while discovering exciting new series tailored to your interests."
+            title={t('features.discover')}
+            description={t('features.discoverDesc')}
             delay={0.1}
           />
           <FeatureItem 
             icon={BookOpen}
-            title="Read & Watch"
-            description="Enjoy a seamless reading and watching experience with our curated collection. Premium content without premium pricing."
+            title={t('features.readWatch')}
+            description={t('features.readWatchDesc')}
             delay={0.3}
           />
           <FeatureItem 
             icon={Gamepad2}
-            title="Sync & Share"
-            description="Connect with AniList to track your progress, showcase your collection, and discover what other fans are enjoying."
+            title={t('features.syncShare')}
+            description={t('features.syncShareDesc')}
             delay={0.5}
           />
         </div>

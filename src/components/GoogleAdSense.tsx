@@ -21,6 +21,7 @@ const GoogleAdSense: React.FC<GoogleAdSenseProps> = ({
   contentVerified = true,
 }) => {
   const [hasContent, setHasContent] = useState(false);
+  const [adsBlocked, setAdsBlocked] = useState(false);
   
   useEffect(() => {
     if (process.env.NODE_ENV === 'development' && !ENABLE_ADSENSE_IN_DEV) {
@@ -58,17 +59,55 @@ const GoogleAdSense: React.FC<GoogleAdSenseProps> = ({
       
       setHasContent(true);
     };
-    
-    setTimeout(verifyContent, 500);
-    
-    try {
-      if (window.adsbygoogle && hasContent) {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
+
+    // Check if ads are blocked
+    const checkAdBlock = () => {
+      try {
+        const testDiv = document.createElement('div');
+        testDiv.className = 'adsbygoogle';
+        testDiv.style.position = 'absolute';
+        testDiv.style.left = '-10000px';
+        testDiv.style.width = '1px';
+        testDiv.style.height = '1px';
+        document.body.appendChild(testDiv);
+        
+        setTimeout(() => {
+          try {
+            const isBlocked = testDiv.offsetHeight === 0 || window.getComputedStyle(testDiv).display === 'none';
+            if (testDiv.parentNode) {
+              testDiv.parentNode.removeChild(testDiv);
+            }
+            setAdsBlocked(isBlocked);
+            if (isBlocked) {
+              console.log('AdSense: Ads are blocked by adblocker');
+            }
+          } catch (error) {
+            console.warn('AdSense: Error checking ad block status:', error);
+            setAdsBlocked(true);
+          }
+        }, 100);
+      } catch (error) {
+        console.warn('AdSense: Failed to create ad block test:', error);
+        setAdsBlocked(true);
       }
-    } catch (error) {
-      console.error('Error loading Google AdSense:', error);
+    };
+    
+    setTimeout(() => {
+      verifyContent();
+      checkAdBlock();
+    }, 500);
+    
+    // Only try to load ads if they're not blocked
+    if (hasContent && !adsBlocked) {
+      try {
+        if (typeof window !== 'undefined' && window.adsbygoogle) {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        }
+      } catch (error) {
+        console.warn('Error loading Google AdSense:', error);
+      }
     }
-  }, [adSlot, contentVerified, hasContent]);
+  }, [adSlot, contentVerified, hasContent, adsBlocked]);
 
   if (process.env.NODE_ENV === 'development' && !ENABLE_ADSENSE_IN_DEV) {
     return (
@@ -84,6 +123,11 @@ const GoogleAdSense: React.FC<GoogleAdSenseProps> = ({
         <p style={{ color: '#666', textAlign: 'center' }}>AdSense disabled in development</p>
       </div>
     );
+  }
+
+  if (adsBlocked) {
+    // Don't show anything when ads are blocked - just return null to avoid layout shifts
+    return null;
   }
   
   if (!hasContent && contentVerified) {

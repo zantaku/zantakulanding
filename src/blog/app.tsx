@@ -1427,25 +1427,11 @@ const BlogApp = () => {
           <div className="max-w-5xl mx-auto">
             {/* Logo */}
             <div className="flex justify-center mb-8">
-              <svg
-                className="w-12 h-12 text-white/80 hover:text-neo-crimson transition-colors duration-300"
-                viewBox="0 0 500 500"
-              >
-                <g fill="currentColor">
-                  <rect x="131.12" y="146.01" width="103.83" height="23.21"/>
-                  <rect x="131.12" y="185.1" width="103.83" height="23.21"/>
-                  <polygon points="267.93 146.01 268.23 169.22 343.15 169.22 366.97 146.01 267.93 146.01"/>
-                  <polygon points="267.93 185.1 329 185.1 328.37 381.31 305.79 356.01 305.79 208.31 267.93 208.31 267.93 185.1"/>
-                  <polygon points="241.06 90.97 241.06 387.05 263.04 409.03 263.04 114.19 241.06 90.97"/>
-                  <rect x="269.15" y="238.85" width="30.54" height="21.99"/>
-                  <polygon points="404.24 238.85 333.89 238.85 333.89 260.83 382.25 260.83 404.24 238.85"/>
-                  <polygon points="269.45 314.51 291.5 336.56 299.69 336.56 299.69 314.58 269.45 314.51"/>
-                  <polygon points="386.65 314.58 333.89 314.46 333.89 336.56 364.66 336.56 386.65 314.58"/>
-                  <polygon points="233.69 240.07 221.85 240.07 129.9 332.26 129.9 360.84 233.73 256.73 233.69 240.07"/>
-                  <polygon points="215.9 238.85 95.76 238.85 116.85 260.83 193.91 260.83 215.9 238.85"/>
-                  <polygon points="199.53 299.12 199.53 353.45 223.96 377.68 223.96 274.69 199.53 299.12"/>
-                </g>
-              </svg>
+              <img 
+                src="/asset/zantakulogotest_64x64.webp" 
+                alt="Zantaku Logo" 
+                className="w-12 h-12 hover:opacity-80 transition-opacity duration-300"
+              />
             </div>
             
             {/* Blog Categories */}

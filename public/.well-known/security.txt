@@ -1,0 +1,27 @@
+Contact: mailto:support@zantaku.com
+Contact: https://discord.gg/Pm7KyBYdA5
+Expires: 2025-12-31T23:59:59.000Z
+Preferred-Languages: en, ja
+Canonical: https://zantaku.com/.well-known/security.txt
+
+# About Zantaku
+# Zantaku is a legitimate anime and manga tracking application
+# We help users organize their anime/manga collections via AniList integration
+# This is NOT a streaming service or piracy platform
+# We only provide tracking, discovery, and community features for anime fans
+
+# Our Mission
+# - Connect anime fans worldwide
+# - Integrate with legitimate services like AniList
+# - Provide discovery and recommendation features
+# - Build a positive otaku community
+
+# No Illegal Content
+# Zantaku does not host, distribute, or facilitate access to copyrighted material
+# We are a tracking and social platform only
+# All content references link to legitimate sources
+
+# Policy Compliance
+# We comply with DMCA, GDPR, and other relevant regulations
+# User data is protected and handled responsibly
+# No malware, phishing, or deceptive practices 

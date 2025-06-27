@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { MediaType, Media, AniListMediaResponse } from '../types/media';
 import { OptimizedImage } from './OptimizedImage';
+import { useTranslation } from 'react-i18next';
 
 // Card flip styles
 const cardFlipStyles = `
@@ -111,6 +112,9 @@ export function PopularMediaSection() {
   const [direction, setDirection] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const constraintsRef = useRef(null);
+  
+  // Use translation context
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchPopularMedia = async () => {
@@ -290,15 +294,33 @@ export function PopularMediaSection() {
 
   if (loading) {
     return (
-      <div className="relative py-12 md:py-16 bg-gradient-to-b from-[#121212] to-[#181818] overflow-hidden">
+      <div className="relative py-20 md:py-24 bg-gradient-to-b from-[#0A0A0A] via-[#1A0A1A] to-[#0A0A0A] overflow-hidden">
+        {/* Enhanced background effects */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#7C1C1C]/8 via-transparent to-[#7C1C1C]/8 animate-pulse"></div>
+          <div className="absolute top-0 left-0 w-full h-full">
+            <div className="absolute top-1/5 left-1/3 w-32 h-32 bg-[#7C1C1C]/15 rounded-full blur-2xl animate-bounce"></div>
+            <div className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-[#531111]/15 rounded-full blur-2xl animate-bounce"></div>
+            <div className="absolute top-1/2 right-2/3 w-20 h-20 bg-[#2C7A8C]/15 rounded-full blur-2xl animate-bounce"></div>
+          </div>
+        </div>
+        
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-8">
-              <div className="h-6 w-32 bg-white/10 rounded mb-4 mx-auto"></div>
-              <div className="h-10 w-64 bg-white/10 rounded mb-8 mx-auto"></div>
+            <div className="text-center mb-12">
+              <div className="h-8 w-40 bg-white/10 rounded mb-4 mx-auto animate-pulse"></div>
+              <div className="h-12 w-80 bg-white/10 rounded mb-8 mx-auto animate-pulse"></div>
+              <div className="flex justify-center gap-2 mb-8">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="w-2 h-2 bg-white/10 rounded-full animate-pulse"></div>
+                ))}
+              </div>
             </div>
             <div className="flex justify-center">
-              <div className="w-full max-w-[220px] aspect-[3/4] bg-white/10 rounded-xl animate-pulse"></div>
+              <div className="relative">
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#7C1C1C] via-[#FF6B6B] to-[#7C1C1C] rounded-2xl opacity-30 blur-sm animate-pulse"></div>
+                <div className="relative w-full max-w-[220px] aspect-[3/4] bg-black/60 rounded-xl animate-pulse"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -307,20 +329,45 @@ export function PopularMediaSection() {
   }
 
   return (
-    <div className="relative py-12 md:py-16 bg-gradient-to-b from-[#121212] to-[#181818] overflow-hidden">
+    <div className="relative py-20 md:py-24 bg-gradient-to-b from-[#0A0A0A] via-[#1A0A1A] to-[#0A0A0A] overflow-hidden">
+      {/* Enhanced background effects */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#7C1C1C]/8 via-transparent to-[#7C1C1C]/8 animate-pulse"></div>
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-1/5 left-1/3 w-32 h-32 bg-[#7C1C1C]/15 rounded-full blur-2xl animate-bounce" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-[#531111]/15 rounded-full blur-2xl animate-bounce" style={{ animationDelay: '3s' }}></div>
+          <div className="absolute top-1/2 right-2/3 w-20 h-20 bg-[#2C7A8C]/15 rounded-full blur-2xl animate-bounce" style={{ animationDelay: '2s' }}></div>
+        </div>
+      </div>
+      
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-8"
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
           >
-            <h3 className="text-xl md:text-2xl text-white/80 font-medium mb-2">The Future of Anime & Manga</h3>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-neo-crimson/90">
-              Everyone Is Here
+            <h3 className="text-2xl md:text-3xl text-white/80 font-medium mb-4">{t('popular.subtitle')}</h3>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+              <span className="bg-gradient-to-r from-[#7C1C1C] via-[#FF6B6B] to-[#7C1C1C] text-transparent bg-clip-text">{t('popular.title')}</span>
             </h2>
+            <div className="flex justify-center items-center gap-2 mb-8">
+              {[...Array(8)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="w-2 h-2 rounded-full bg-[#7C1C1C]"
+                  initial={{ opacity: 0.3 }}
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    delay: i * 0.2
+                  }}
+                />
+              ))}
+            </div>
           </motion.div>
 
           {/* Pagination indicator */}
@@ -352,19 +399,21 @@ export function PopularMediaSection() {
             {/* Previous Card Preview */}
             {popularMedia.length > 1 && (
               <div 
-                className="absolute -left-2 sm:-left-4 md:-left-20 top-1/2 -translate-y-1/2 w-16 sm:w-20 md:w-32 h-28 sm:h-32 md:h-48 z-0 opacity-60 transform -rotate-6 cursor-pointer hover:opacity-80 transition-opacity"
+                className="absolute -left-8 sm:-left-12 md:-left-16 lg:-left-20 top-1/2 -translate-y-1/2 w-24 sm:w-32 md:w-40 lg:w-48 h-36 sm:h-48 md:h-60 lg:h-72 z-0 opacity-70 transform -rotate-3 scale-90 cursor-pointer hover:opacity-90 hover:scale-95 transition-all duration-300"
                 onClick={() => paginate(-1)}
               >
-                <div className="w-full h-full rounded-lg overflow-hidden shadow-md">
+                <div className="w-full h-full rounded-xl overflow-hidden shadow-xl border border-white/10">
                   <img 
                     src={popularMedia[(currentIndex - 1 + popularMedia.length) % popularMedia.length].coverImage.large}
                     alt=""
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{ objectPosition: "center center" }}
                   />
-                  <div className="absolute inset-0 bg-black/50"></div>
-                  <div className="absolute bottom-2 left-0 right-0 text-center text-white text-[10px] md:text-xs font-medium opacity-80 px-2 truncate">
-                    {popularMedia[(currentIndex - 1 + popularMedia.length) % popularMedia.length].title.english}
+                  <div className="absolute inset-0 bg-black/30"></div>
+                  <div className="absolute bottom-3 left-0 right-0 text-center text-white text-xs md:text-sm font-medium px-3">
+                    <div className="bg-black/60 rounded-lg px-2 py-1">
+                      {popularMedia[(currentIndex - 1 + popularMedia.length) % popularMedia.length].title.english}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -372,7 +421,7 @@ export function PopularMediaSection() {
             
             {/* Main Card */}
             <div
-              className="relative w-full max-w-[190px] sm:max-w-[220px] md:max-w-xs aspect-[3/4] cursor-pointer z-10"
+              className="relative w-full max-w-[280px] sm:max-w-[320px] md:max-w-[380px] lg:max-w-[420px] aspect-[3/4] cursor-pointer z-10"
               ref={constraintsRef}
             >
               <AnimatePresence initial={false} custom={direction}>
@@ -380,12 +429,13 @@ export function PopularMediaSection() {
                   <motion.div
                     key={currentIndex}
                     custom={direction}
-                    initial={{ opacity: 0, x: direction > 0 ? 300 : -300 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: direction < 0 ? 300 : -300 }}
+                    initial={{ opacity: 0, x: direction > 0 ? 300 : -300, scale: 0.8 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: direction < 0 ? 300 : -300, scale: 0.8 }}
                     transition={{
                       x: { type: "spring", stiffness: 400, damping: 35 },
-                      opacity: { duration: 0.3 }
+                      opacity: { duration: 0.3 },
+                      scale: { duration: 0.4 }
                     }}
                     drag="x"
                     dragDirectionLock
@@ -394,42 +444,66 @@ export function PopularMediaSection() {
                     onDragEnd={handleDragEnd}
                     whileDrag={{
                       scale: 0.95,
-                      boxShadow: "0 10px 25px rgba(0,0,0,0.3)"
+                      boxShadow: "0 25px 50px rgba(0,0,0,0.5)"
+                    }}
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0 30px 60px rgba(124, 28, 28, 0.3)"
                     }}
                     dragTransition={{ bounceStiffness: 600, bounceDamping: 10 }}
                     className="absolute w-full h-full card-container"
                     onClick={handleCardClick}
                   >
-                    <div className={`card ${flipped ? 'flipped' : ''}`}>
+                    {/* Glow effect behind card */}
+                    <div className="absolute -inset-4 bg-gradient-to-r from-[#7C1C1C]/30 via-[#FF6B6B]/20 to-[#7C1C1C]/30 rounded-2xl blur-xl opacity-75"></div>
+                    
+                    <div className={`card ${flipped ? 'flipped' : ''} relative`}>
                       {/* Card Front */}
-                      <div className="card-face card-front rounded-xl overflow-hidden shadow-2xl">
+                      <div className="card-face card-front rounded-xl overflow-hidden shadow-2xl border border-white/10">
                         <div className="relative w-full h-full">
                           <OptimizedImage 
                             src={popularMedia[currentIndex].coverImage.large}
                             alt={popularMedia[currentIndex].title.english}
-                            width={240}
-                            height={340}
+                            width={420}
+                            height={560}
                             className="absolute inset-0 w-full h-full object-cover"
                             style={{
                               objectPosition: "center center"
                             }}
                           />
-                          <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-white/5 to-white/20 pointer-events-none"></div>
-                          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-                            <span className="inline-block px-2 py-0.5 mb-2 rounded-full bg-neo-crimson/80 text-xs font-medium text-white">
-                              {getTypeIcon(popularMedia[currentIndex].type)} {getTypeLabel(popularMedia[currentIndex].type)}
-                            </span>
-                            <h3 className="text-lg md:text-xl font-bold text-white line-clamp-1">
+                          <div className="absolute inset-0 bg-gradient-to-tr from-black/30 via-transparent to-white/10 pointer-events-none"></div>
+                          <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="inline-flex items-center px-3 py-1 rounded-full bg-neo-crimson/90 text-sm font-medium text-white shadow-lg">
+                                {getTypeIcon(popularMedia[currentIndex].type)} {getTypeLabel(popularMedia[currentIndex].type)}
+                              </span>
+                              <div className="flex items-center text-white/90">
+                                <span className="text-yellow-400 mr-1 text-lg">★</span>
+                                <span className="font-bold text-lg">{((popularMedia[currentIndex].meanScore || 0) / 10).toFixed(1)}</span>
+                              </div>
+                            </div>
+                            <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white line-clamp-2 leading-tight">
                               {popularMedia[currentIndex].title.english}
                             </h3>
+                            <p className="text-white/80 text-sm md:text-base mt-2">
+                              {popularMedia[currentIndex].type === 'ANIME' 
+                                ? `${popularMedia[currentIndex].episodes || '?'} ${t('popular.episodes')}` 
+                                : `${popularMedia[currentIndex].chapters || '?'} ${t('popular.chapters')}`}
+                            </p>
+                          </div>
+                          
+                          {/* Click to flip indicator */}
+                          <div className="absolute top-4 right-4 bg-black/60 rounded-full p-2 text-white/80 text-xs">
+                            <span className="hidden sm:block">{t('popular.clickToFlip')}</span>
+                            <span className="sm:hidden">{t('popular.tap')}</span>
                           </div>
                         </div>
                       </div>
                       
                       {/* Card Back */}
-                      <div className="card-face card-back rounded-xl overflow-hidden shadow-2xl">
-                        <div className="relative w-full h-full bg-black/90">
-                          <div className="absolute inset-0 opacity-30 blur-md">
+                      <div className="card-face card-back rounded-xl overflow-hidden shadow-2xl border border-white/10">
+                        <div className="relative w-full h-full bg-black/95">
+                          <div className="absolute inset-0 opacity-20 blur-md">
                             <img 
                               src={popularMedia[currentIndex].coverImage.large}
                               alt=""
@@ -437,38 +511,47 @@ export function PopularMediaSection() {
                               style={{ objectPosition: "center center" }}
                             />
                           </div>
-                          <div className="relative z-10 flex flex-col h-full p-4 md:p-5">
-                            <div className="mb-3">
-                              <span className="inline-block px-2 py-0.5 mb-1 rounded-full bg-neo-crimson/80 text-xs font-medium text-white">
-                                {getTypeIcon(popularMedia[currentIndex].type)} {getTypeLabel(popularMedia[currentIndex].type)}
-                              </span>
-                              <h3 className="text-lg md:text-xl font-bold text-white mb-1 line-clamp-2">
+                          <div className="relative z-10 flex flex-col h-full p-4 md:p-6">
+                            <div className="mb-4">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="inline-flex items-center px-3 py-1 rounded-full bg-neo-crimson/90 text-sm font-medium text-white">
+                                  {getTypeIcon(popularMedia[currentIndex].type)} {getTypeLabel(popularMedia[currentIndex].type)}
+                                </span>
+                                <div className="flex items-center text-white/90">
+                                  <span className="text-yellow-400 mr-1 text-xl">★</span>
+                                  <span className="font-bold text-xl">{((popularMedia[currentIndex].meanScore || 0) / 10).toFixed(1)}</span>
+                                </div>
+                              </div>
+                              <h3 className="text-xl md:text-2xl font-bold text-white mb-2 line-clamp-2 leading-tight">
                                 {popularMedia[currentIndex].title.english}
                               </h3>
-                              <div className="flex items-center text-base text-white/90 mb-1">
-                                <span className="text-yellow-400 mr-1 text-lg">★</span>
-                                <span className="font-bold">{((popularMedia[currentIndex].meanScore || 0) / 10).toFixed(1)}</span>
-                              </div>
+                              <p className="text-white/80 text-sm md:text-base mb-3">
+                                {popularMedia[currentIndex].type === 'ANIME' 
+                                  ? `${popularMedia[currentIndex].episodes || '?'} ${t('popular.episodes')}` 
+                                  : `${popularMedia[currentIndex].chapters || '?'} ${t('popular.chapters')}`}
+                              </p>
                             </div>
-                            <div className="flex flex-wrap gap-1 mb-2">
-                              {popularMedia[currentIndex].genres.slice(0, 3).map((genre, index) => (
+                            
+                            <div className="flex flex-wrap gap-2 mb-4">
+                              {popularMedia[currentIndex].genres.slice(0, 4).map((genre, index) => (
                                 <span 
                                   key={index}
-                                  className={`px-2 py-0.5 rounded-full text-xs font-medium text-white ${getGenreColor(genre)}`}
+                                  className={`px-3 py-1 rounded-full text-sm font-medium text-white ${getGenreColor(genre)} shadow-lg`}
                                 >
                                   {genre}
                                 </span>
                               ))}
                             </div>
-                            <p className="text-white/70 text-xs">
-                              {popularMedia[currentIndex].type === 'ANIME' 
-                                ? `${popularMedia[currentIndex].episodes || '?'} Episodes` 
-                                : `${popularMedia[currentIndex].chapters || '?'} Chapters`}
-                            </p>
-                            <div className="mb-auto overflow-y-auto">
-                              <p className="text-white/80 text-xs italic leading-relaxed">
+                            
+                            <div className="flex-1 overflow-hidden">
+                              <p className="text-white/80 text-sm md:text-base leading-relaxed">
                                 {truncateDescription(popularMedia[currentIndex].description || null)}
                               </p>
+                            </div>
+                            
+                            {/* Back to front indicator */}
+                            <div className="mt-4 text-center">
+                              <span className="text-white/60 text-xs">{t('popular.clickToSeeCover')}</span>
                             </div>
                           </div>
                         </div>
@@ -482,22 +565,48 @@ export function PopularMediaSection() {
             {/* Next Card Preview */}
             {popularMedia.length > 1 && (
               <div 
-                className="absolute -right-2 sm:-right-4 md:-right-20 top-1/2 -translate-y-1/2 w-16 sm:w-20 md:w-32 h-28 sm:h-32 md:h-48 z-0 opacity-60 transform rotate-6 cursor-pointer hover:opacity-80 transition-opacity"
+                className="absolute -right-8 sm:-right-12 md:-right-16 lg:-right-20 top-1/2 -translate-y-1/2 w-24 sm:w-32 md:w-40 lg:w-48 h-36 sm:h-48 md:h-60 lg:h-72 z-0 opacity-70 transform rotate-3 scale-90 cursor-pointer hover:opacity-90 hover:scale-95 transition-all duration-300"
                 onClick={() => paginate(1)}
               >
-                <div className="w-full h-full rounded-lg overflow-hidden shadow-md">
+                <div className="w-full h-full rounded-xl overflow-hidden shadow-xl border border-white/10">
                   <img 
                     src={popularMedia[(currentIndex + 1) % popularMedia.length].coverImage.large}
                     alt=""
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{ objectPosition: "center center" }}
                   />
-                  <div className="absolute inset-0 bg-black/50"></div>
-                  <div className="absolute bottom-2 left-0 right-0 text-center text-white text-[10px] md:text-xs font-medium opacity-80 px-2 truncate">
-                    {popularMedia[(currentIndex + 1) % popularMedia.length].title.english}
+                  <div className="absolute inset-0 bg-black/30"></div>
+                  <div className="absolute bottom-3 left-0 right-0 text-center text-white text-xs md:text-sm font-medium px-3">
+                    <div className="bg-black/60 rounded-lg px-2 py-1">
+                      {popularMedia[(currentIndex + 1) % popularMedia.length].title.english}
+                    </div>
                   </div>
                 </div>
               </div>
+            )}
+            
+            {/* Navigation arrows - more prominent */}
+            {popularMedia.length > 1 && (
+              <>
+                <button
+                  onClick={() => paginate(-1)}
+                  className="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-black/80 text-white rounded-full p-3 md:p-4 transition-all duration-300 hover:scale-110 border border-white/20"
+                  aria-label="Previous anime"
+                >
+                  <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => paginate(1)}
+                  className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-black/80 text-white rounded-full p-3 md:p-4 transition-all duration-300 hover:scale-110 border border-white/20"
+                  aria-label="Next anime"
+                >
+                  <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </>
             )}
           </div>
         </div>
